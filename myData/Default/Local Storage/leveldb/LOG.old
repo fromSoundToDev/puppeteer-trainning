@@ -1,3 +1,3 @@
-2025/01/06-20:56:47.422 2244 Reusing MANIFEST D:\puppeteer-training-project\myData\Default\Local Storage\leveldb/MANIFEST-000001
-2025/01/06-20:56:47.489 2244 Recovering log #3
-2025/01/06-20:56:47.506 2244 Reusing old log D:\puppeteer-training-project\myData\Default\Local Storage\leveldb/000003.log 
+2025/02/05-20:07:35.890 d74 Reusing MANIFEST D:\puppeteer-training-project\myData\Default\Local Storage\leveldb/MANIFEST-000001
+2025/02/05-20:07:36.367 d74 Recovering log #3
+2025/02/05-20:07:36.387 d74 Reusing old log D:\puppeteer-training-project\myData\Default\Local Storage\leveldb/000003.log 

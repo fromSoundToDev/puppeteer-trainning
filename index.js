@@ -25,5 +25,5 @@ import puppeteer from 'puppeteer';
 
 
     // await page.screenshot({path:'cfetogo.png'})
-    // await browser.close(); 
+    await browser.close(); 
 })();
