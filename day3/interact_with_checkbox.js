@@ -4,39 +4,37 @@ import puppeteer from "puppeteer";
     const browser = await puppeteer.launch({
         headless: false,
         defaultViewport: null,
-        args: ['--start-fullscreen']
+        args: ['--start-fullscreen'] // Ouvre Chromium en plein écran
     });
 
     const page = await browser.newPage();
     await page.goto('https://demoqa.com/', { timeout: 240000 });
 
-    // Wait for the main cards to load
-    await page.waitForSelector('.category-cards', { visible: true });
-
-    // Click on "Elements" card (first card)
+    // 1️⃣ Attendre et cliquer sur la carte "Elements"
+    await page.waitForSelector('.card.mt-4.top-card', { visible: true });
     await page.click('.card.mt-4.top-card:nth-child(1)');
 
-    // Wait for the sidebar buttons to load
+    // 2️⃣ Attendre et cliquer sur "Check Box"
     await page.waitForSelector('.btn.btn-light', { visible: true });
+    await page.click('li#item-1');
 
-    // Click on "Check Box" in the sidebar
-    await page.click('.btn.btn-light:nth-child(2)');
-
-    // Expand the first collapsible button
+    // 3️⃣ Déplier le menu principal (Home)
     await page.waitForSelector('.rct-collapse.rct-collapse-btn', { visible: true });
     await page.click('.rct-collapse.rct-collapse-btn');
 
-    // Expand the second collapsible button under "Office"
-    await page.waitForSelector('div#tree-node ol li:nth-child(2) button.rct-collapse.rct-collapse-btn', { visible: true });
-    await page.click('div#tree-node ol li:nth-child(2) button.rct-collapse.rct-collapse-btn');
+    // 4️⃣ Attendre que le menu "Documents" apparaisse et le déplier
+    await page.waitForSelector('li:nth-child(2) > .rct-node > .rct-collapse', { visible: true });
+    await page.click('li:nth-child(2) > .rct-node > .rct-collapse');
 
+    // 5️⃣ Attendre que "Office" apparaisse et le déplier
+    await page.waitForSelector('li:nth-child(2) > ol > li:nth-child(2) > .rct-node > .rct-collapse', { visible: true });
+    await page.click('li:nth-child(2) > ol > li:nth-child(2) > .rct-node > .rct-collapse');
+
+    // 6️⃣ Attendre et cliquer sur "Classified"
+    await page.waitForSelector('#tree-node-classified', { visible: true });
+    await page.click('label[for="tree-node-classified"]');
+
+    console.log("✅ 'Classified' est coché avec succès !");
     
-  
-
-    console.log("✅ 'Classified' checkbox selected!");
-
-    // Optional: Wait a few seconds before closing
-   
-
-    
+    await browser.close();
 })();
