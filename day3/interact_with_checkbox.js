@@ -30,10 +30,7 @@ import puppeteer from "puppeteer";
     await page.waitForSelector('div#tree-node ol li:nth-child(2) button.rct-collapse.rct-collapse-btn', { visible: true });
     await page.click('div#tree-node ol li:nth-child(2) button.rct-collapse.rct-collapse-btn');
 
-    // Expand "Office" if necessary
-    await page.waitForSelector('.rct-node.rct-node-parent.rct-node-expanded ol li:nth-child(2) button.rct-collapse-btn', { visible: true });
-    await page.click('.rct-node.rct-node-parent.rct-node-expanded ol li:nth-child(2) button.rct-collapse-btn');
-
+    
   
 
     console.log("✅ 'Classified' checkbox selected!");
