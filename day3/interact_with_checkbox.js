@@ -1,40 +1,39 @@
-import puppeteer from "puppeteer";
+import { launch } from 'puppeteer';
 
 (async () => {
-    const browser = await puppeteer.launch({
-        headless: false,
-        defaultViewport: null,
-        args: ['--start-fullscreen'] // Ouvre Chromium en plein écran
-    });
+  // Lancement du navigateur
+  const browser = await launch({ headless: false }); // headless: false pour voir le navigateur
+  const page = await browser.newPage();
 
-    const page = await browser.newPage();
-    await page.goto('https://demoqa.com/', { timeout: 240000 });
+  page.setDefaultTimeout(240000)
+  // Navigation vers la page des checkboxes
+  await page.goto('https://demoqa.com/checkbox');
 
-    // 1️⃣ Attendre et cliquer sur la carte "Elements"
-    await page.waitForSelector('.card.mt-4.top-card', { visible: true });
-    await page.click('.card.mt-4.top-card:nth-child(1)');
+  // Attendre que le bouton pour développer l'arborescence soit visible
+  await page.waitForSelector('.rct-collapse-btn');
 
-    // 2️⃣ Attendre et cliquer sur "Check Box"
-    await page.waitForSelector('.btn.btn-light', { visible: true });
-    await page.click('li#item-1');
+  // Cliquer sur le bouton pour développer l'arborescence
+  await page.click('.rct-collapse-btn');
 
-    // 3️⃣ Déplier le menu principal (Home)
-    await page.waitForSelector('.rct-collapse.rct-collapse-btn', { visible: true });
-    await page.click('.rct-collapse.rct-collapse-btn');
+  // Attendre que les checkboxes soient visibles
+  await page.waitForSelector('.rct-checkbox');
 
-    // 4️⃣ Attendre que le menu "Documents" apparaisse et le déplier
-    await page.waitForSelector('li:nth-child(2) > .rct-node > .rct-collapse', { visible: true });
-    await page.click('li:nth-child(2) > .rct-node > .rct-collapse');
+  // Cochez une checkbox spécifique (par exemple, "Desktop")
+  const checkboxSelector = 'label[for="tree-node-desktop"]';
+  await page.waitForSelector(checkboxSelector);
+  await page.click(checkboxSelector);
 
-    // 5️⃣ Attendre que "Office" apparaisse et le déplier
-    await page.waitForSelector('li:nth-child(2) > ol > li:nth-child(2) > .rct-node > .rct-collapse', { visible: true });
-    await page.click('li:nth-child(2) > ol > li:nth-child(2) > .rct-node > .rct-collapse');
+  // Vérifiez si la checkbox est cochée
+  const isChecked = await page.evaluate((selector) => {
+    const checkbox = document.querySelector(selector);
+    return checkbox.checked;
+  }, 'input[id="tree-node-desktop"]');
 
-    // 6️⃣ Attendre et cliquer sur "Classified"
-    await page.waitForSelector('#tree-node-classified', { visible: true });
-    await page.click('label[for="tree-node-classified"]');
+  console.log('La checkbox est-elle cochée ?', isChecked);
 
-    console.log("✅ 'Classified' est coché avec succès !");
-    
-    await browser.close();
+  // Prendre une capture d'écran pour vérifier
+  await page.screenshot({ path: 'checkbox.png' });
+
+  // Fermer le navigateur
+  await browser.close();
 })();
