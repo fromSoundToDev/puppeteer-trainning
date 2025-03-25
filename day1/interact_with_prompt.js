@@ -16,5 +16,5 @@ import puppeteer from "puppeteer";
     const successMessage = await page.$eval("p", (el) => el.innerText);
     console.log(" Authentification réussie:", successMessage);
 
-    await browser.close();
+    await browser.close();s
 })();
